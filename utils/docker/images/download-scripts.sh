@@ -24,23 +24,15 @@ fi
 mkdir -p codecov-tmp
 cd codecov-tmp
 
-git clone https://github.com/Karolina002/uploader
-cd uploader
+curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+curl -Os https://uploader.codecov.io/latest/linux/codecov
+curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+sha256sum -c codecov.SHA256SUM
+chmod +x codecov
 
-if ! [ -x "$(command -v npm)" ]; then
-	echo "Error: npm is not installed."
-	return 1
-fi
+mv -v codecov /opt/scripts/codecov
 
-npm install
-npm run build
-npm run build-linux
-
-cd dist/bin/
-
-chmod +x codecov.js
-
-mv -v codecov.js /opt/scripts/codecov
-
-cd ../../../../
+cd ..
 rm -rf codecov-tmp
