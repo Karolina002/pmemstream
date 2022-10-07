@@ -39,7 +39,7 @@ function upload_codecov() {
 	if [[ ${clang_used} -gt 0 ]]; then
 		gcov_files=$(find . -name "*.gcov")
 		echo "${gcov_files}"
-		/opt/scripts/codecov --flags ${1} -v --nonZero --gcovExecutable "gcov" ${IGNORE_PATHS} --rootDir . --clean -d
+		/opt/scripts/codecov --flags ${1} -v --nonZero --gcov --gcovExecutable "gcov" ${IGNORE_PATHS} --rootDir . --clean -d
 	else
 		/opt/scripts/codecov --flags ${1} --nonZero --gcov ${IGNORE_PATHS} --rootDir . --clean -d
 	fi
