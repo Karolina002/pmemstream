@@ -36,8 +36,10 @@ function upload_codecov() {
 	# run codecov using proper gcov executable
 	# we rely on parsed report on codecov.io
 	clang_used=$(cmake -LA -N . | grep -e "CMAKE_C.*_COMPILER" | grep clang | wc -c)
-	gcov_files=$(find . .. -name "*.gcov")
+	gcov_files=$(find . -name "*.gcov")
 		echo "${gcov_files}"
+		
+	pwd
 	if [[ ${clang_used} -gt 0 ]]; then
 		/opt/scripts/codecov --flags ${1} -v --nonZero --gcov --gcovExecutable "gcov" ${IGNORE_PATHS} --rootDir . --clean -d
 	else
